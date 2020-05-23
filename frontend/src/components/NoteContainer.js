@@ -6,16 +6,21 @@ import Content from './Content';
 class NoteContainer extends Component {
 
   state = {
-    allNotes: []
+    notes: [],
+    selectedNote: null
   };
 
   componentDidMount() {
     fetch("http://localhost:3000/api/v1/notes/")
       .then(res => res.json())
-      .then(allNotes => this.setState({ allNotes }));
+      .then(notes => this.setState({ notes }));
   };
 
-
+  selectNote = (note) => {
+    this.setState({
+      selectedNote: note
+    })
+  }
 
 
   render() {
@@ -23,8 +28,8 @@ class NoteContainer extends Component {
       <Fragment>
         <Search />
         <div className='container'>
-          <Sidebar notes={this.state.allNotes} />
-          <Content />
+          <Sidebar notes={this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} />
+          <Content selectedNote={this.state.selectedNote} />
         </div>
       </Fragment>
     );

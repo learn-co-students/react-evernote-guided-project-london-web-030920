@@ -3,13 +3,13 @@ import NoteItem from './NoteItem';
 
 const NoteList = (props) => {
 
-  let displayNotes = () => {
-    return props.notes.map(note => <NoteItem note={note} />)
+  let displayAllNotes = () => {
+    return props.notes.map(note => <NoteItem note={note} key={note.id} selectNote={props.selectNote} />)
   }
 
   return (
     <ul>
-      {displayNotes()}
+      {displayAllNotes()}
     </ul>
   );
 }
