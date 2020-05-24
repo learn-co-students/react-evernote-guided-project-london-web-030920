@@ -7,7 +7,7 @@ class NoteEditor extends Component {
     body: this.props.selectedNote.body,
   }
 
-  edit = (event) => {
+  editNote = (event) => {
     event.persist();
     event.preventDefault();
 
@@ -21,7 +21,7 @@ class NoteEditor extends Component {
       })
     })
     .then(note => note.json())
-    .then(updatedNote => this.props.renderUpdatedNote(updatedNote))
+    .then(updatedNote => this.props.addUpdatedNote(updatedNote))
     .then(this.props.switchEditorState)
   }
 
@@ -37,7 +37,7 @@ class NoteEditor extends Component {
         <input type="text" name="title" value={this.state.title} onChange={event => this.handleChange(event)} />
         <textarea name="body" value={this.state.body} onChange={event => this.handleChange(event)} />
         <div className="button-row">
-          <input className="button" type="submit" value="Save" onClick={event => this.edit(event)} />
+          <input className="button" type="submit" value="Save" onClick={event => this.editNote(event)} />
           <button type="button" onClick={() => this.props.switchEditorState()}>Cancel</button>
         </div>
       </form>

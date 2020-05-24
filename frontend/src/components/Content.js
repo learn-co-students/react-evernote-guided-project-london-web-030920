@@ -27,7 +27,7 @@ class Content extends Component {
     const displayNote = !!this.props.selectedNote
   
     if (this.state.editor === true) {
-      return <NoteEditor selectedNote={this.props.selectedNote} switchEditorState={this.switchEditorState} renderUpdatedNote={this.props.renderUpdatedNote} />;
+      return <NoteEditor selectedNote={this.props.selectedNote} switchEditorState={this.switchEditorState} addUpdatedNote={this.props.addUpdatedNote} />;
     } else if (displayNote === true) {
       return <NoteViewer selectedNote={this.props.selectedNote} switchEditorState={this.switchEditorState} />;
     } else {
