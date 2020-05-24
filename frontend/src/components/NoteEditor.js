@@ -16,8 +16,7 @@ class NoteEditor extends Component {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         title: this.state.title,
-        body: this.state.body,
-        //user_id: this.props.selectedNote.user.id
+        body: this.state.body
       })
     })
     .then(note => note.json())

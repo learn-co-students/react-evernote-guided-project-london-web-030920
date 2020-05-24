@@ -9,8 +9,7 @@ class Sidebar extends Component {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         title: 'Add Title',
-        body: 'Add Details',
-        //user_id: this.props.selectedNote.user.id
+        body: 'Add Details'
       })
     }).then(note => note.json())
     .then(newNote => this.props.addNewNote(newNote))
