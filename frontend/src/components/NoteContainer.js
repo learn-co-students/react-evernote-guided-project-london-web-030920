@@ -22,14 +22,30 @@ class NoteContainer extends Component {
     })
   }
 
+  addNewNote = (newNote) => {
+    this.setState({
+      notes: [...this.state.notes, newNote]
+    })
+  }
+
+  renderUpdatedNote = (updatedNote) => {
+    const updateNotes = this.state.notes.map(note => note.id === updatedNote.id ? note = updatedNote : note )
+
+    this.setState({
+      notes: updateNotes,        
+      selectedNote: updatedNote
+    })
+
+  }
+
 
   render() {
     return (
       <Fragment>
         <Search />
         <div className='container'>
-          <Sidebar notes={this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} />
-          <Content selectedNote={this.state.selectedNote} />
+          <Sidebar notes={this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.state.addNewNote} />
+          <Content selectedNote={this.state.selectedNote} renderUpdatedNote={this.renderUpdatedNote} />
         </div>
       </Fragment>
     );
