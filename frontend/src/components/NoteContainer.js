@@ -7,7 +7,8 @@ class NoteContainer extends Component {
 
   state = {
     notes: [],
-    selectedNote: null
+    selectedNote: null,
+    editor: false
   };
 
   componentDidMount() {
@@ -18,7 +19,8 @@ class NoteContainer extends Component {
 
   selectNote = (note) => {
     this.setState({
-      selectedNote: note
+      selectedNote: note,
+      editor: false
     })
   }
 
@@ -38,6 +40,13 @@ class NoteContainer extends Component {
 
   }
 
+  switchEditorState = () => {
+    console.log("woah")
+    this.setState({
+      editor: !this.state.editor
+    });
+  };
+
 
   render() {
     return (
@@ -45,7 +54,7 @@ class NoteContainer extends Component {
         <Search />
         <div className='container'>
           <Sidebar notes={this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.addNewNote} />
-          <Content selectedNote={this.state.selectedNote} addUpdatedNote={this.addUpdatedNote} />
+          <Content selectedNote={this.state.selectedNote} addUpdatedNote={this.addUpdatedNote} switchEditorState={this.switchEditorState} editorState={this.state.editor} />
         </div>
       </Fragment>
     );

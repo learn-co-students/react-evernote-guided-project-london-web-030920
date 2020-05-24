@@ -12,24 +12,13 @@ import Instructions from './Instructions';
 */
 class Content extends Component {
 
-  state = {
-    editor: false
-  }
-
-  switchEditorState = () => {
-    this.setState({
-      editor: !this.state.editor
-    });
-  };
-
   renderContent = () => {
-
     const displayNote = !!this.props.selectedNote
   
-    if (this.state.editor === true) {
-      return <NoteEditor selectedNote={this.props.selectedNote} switchEditorState={this.switchEditorState} addUpdatedNote={this.props.addUpdatedNote} />;
+    if (this.props.editorState === true) {
+      return <NoteEditor selectedNote={this.props.selectedNote} switchEditorState={this.props.switchEditorState} addUpdatedNote={this.props.addUpdatedNote} />;
     } else if (displayNote === true) {
-      return <NoteViewer selectedNote={this.props.selectedNote} switchEditorState={this.switchEditorState} />;
+      return <NoteViewer selectedNote={this.props.selectedNote} switchEditorState={this.props.switchEditorState} />;
     } else {
       return <Instructions />;
     }
