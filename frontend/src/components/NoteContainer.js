@@ -8,7 +8,8 @@ class NoteContainer extends Component {
   state = {
     notes: [],
     selectedNote: null,
-    editor: false
+    editor: false,
+    searchTerm: null
   };
 
   componentDidMount() {
@@ -41,19 +42,23 @@ class NoteContainer extends Component {
   }
 
   switchEditorState = () => {
-    console.log("woah")
     this.setState({
       editor: !this.state.editor
     });
   };
 
+  updateSearchTerm = event => {
+    this.setState({ searchTerm: event.target.value })
+  }
+
+  filteredNotes = () => this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
 
   render() {
     return (
       <Fragment>
-        <Search />
+        <Search updateSearchTerm={this.updateSearchTerm} />
         <div className='container'>
-          <Sidebar notes={this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.addNewNote} />
+          <Sidebar notes={this.state.searchTerm ? this.filteredNotes() : this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.addNewNote} />
           <Content selectedNote={this.state.selectedNote} addUpdatedNote={this.addUpdatedNote} switchEditorState={this.switchEditorState} editorState={this.state.editor} />
         </div>
       </Fragment>
