@@ -51,6 +51,16 @@ class NoteContainer extends Component {
     this.setState({ searchTerm: event.target.value })
   }
 
+  deleteNote = (noteId) => {
+    fetch(`http://localhost:3000/api/v1/notes/${noteId}`, {
+      method: 'DELETE'
+    })
+    .then(resp => resp.json())
+    .then(() => {fetch("http://localhost:3000/api/v1/notes/")
+    .then(resp => resp.json())
+    .then(notes => this.setState({notes}))})
+  }
+
   filteredNotes = () => this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
 
   render() {
@@ -58,7 +68,7 @@ class NoteContainer extends Component {
       <Fragment>
         <Search updateSearchTerm={this.updateSearchTerm} />
         <div className='container'>
-          <Sidebar notes={this.state.searchTerm ? this.filteredNotes() : this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.addNewNote} />
+          <Sidebar notes={this.state.searchTerm ? this.filteredNotes() : this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.addNewNote} deleteNote={this.deleteNote} />
           <Content selectedNote={this.state.selectedNote} addUpdatedNote={this.addUpdatedNote} switchEditorState={this.switchEditorState} editorState={this.state.editor} />
         </div>
       </Fragment>
