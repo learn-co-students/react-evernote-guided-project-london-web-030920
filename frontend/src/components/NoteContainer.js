@@ -4,13 +4,72 @@ import Sidebar from './Sidebar';
 import Content from './Content';
 
 class NoteContainer extends Component {
+
+  state = {
+    notes: [],
+    selectedNote: null,
+    editor: false,
+    searchTerm: null
+  };
+
+  componentDidMount() {
+    fetch("http://localhost:3000/api/v1/notes/")
+      .then(res => res.json())
+      .then(notes => this.setState({ notes }));
+  };
+
+  selectNote = (note) => {
+    this.setState({
+      selectedNote: note,
+      editor: false
+    })
+  }
+
+  addNewNote = (newNote) => {
+    this.setState({
+      notes: [...this.state.notes, newNote]
+    })
+  }
+
+  addUpdatedNote = (updatedNote) => {
+    const updateNotes = this.state.notes.map(note => note.id === updatedNote.id ? note = updatedNote : note )
+
+    this.setState({
+      notes: updateNotes,        
+      selectedNote: updatedNote
+    })
+
+  }
+
+  switchEditorState = () => {
+    this.setState({
+      editor: !this.state.editor
+    });
+  };
+
+  updateSearchTerm = event => {
+    this.setState({ searchTerm: event.target.value })
+  }
+
+  deleteNote = (noteId) => {
+    fetch(`http://localhost:3000/api/v1/notes/${noteId}`, {
+      method: 'DELETE'
+    })
+    .then(resp => resp.json())
+    .then(() => {fetch("http://localhost:3000/api/v1/notes/")
+    .then(resp => resp.json())
+    .then(notes => this.setState({notes}))})
+  }
+
+  filteredNotes = () => this.state.notes.filter(note => note.title.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
+
   render() {
     return (
       <Fragment>
-        <Search />
+        <Search updateSearchTerm={this.updateSearchTerm} />
         <div className='container'>
-          <Sidebar />
-          <Content />
+          <Sidebar notes={this.state.searchTerm ? this.filteredNotes() : this.state.notes} selectNote={this.selectNote} selectedNote={this.state.selectedNote} addNewNote={this.addNewNote} deleteNote={this.deleteNote} />
+          <Content selectedNote={this.state.selectedNote} addUpdatedNote={this.addUpdatedNote} switchEditorState={this.switchEditorState} editorState={this.state.editor} />
         </div>
       </Fragment>
     );
